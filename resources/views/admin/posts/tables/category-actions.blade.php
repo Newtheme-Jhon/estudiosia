@@ -7,12 +7,16 @@
         alertConfirmation(form, page, item)
     }
 }">
+
+@php
+    $category = \App\Models\PostCategory::find($id);
+@endphp
     
-    <a class="btn btn-purple" href="{{route('admin.post_categories.edit', ['post_category' => $id ])}}">
+    <a class="btn btn-purple" href="{{route('admin.post_categories.edit', ['post_category' => $category ])}}">
         <i class="fas fa-edit"></i>
     </a>
 
-    <form x-ref="formDeletePostCategory" action="{{route('admin.post_categories.destroy', ['post_category' => $id])}}" method="POST">
+    <form x-ref="formDeletePostCategory" action="{{route('admin.post_categories.destroy', ['post_category' => $category])}}" method="POST">
         @csrf
         @method('DELETE')
     </form>
