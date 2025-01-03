@@ -42,6 +42,14 @@ class ProcessLessonVideo implements ShouldQueue
      * 
      * Para capturar la imagen del video en el segundo 3 escribimos lo siguiente:
      * $media->getFrameFromSeconds(3)->export()->save($lesson->image_path);
+     * 
+     * Error en el servidor remoto con FFMPEG 5.1 al intentar convertir la imagen del poster a webp
+     * $lesson->image_path = "courses/$course/lessons/posters/{$lesson->slug}.webp";
+     * debe ser en jpg
+     * 
+     * si queremos almacenar esta imagen en otro formato podemos utilizar intervention/image
+     * img jpg to webp
+     * $img = Image::make($lesson->image_path);
      */
     public function handle(VideoUploaded $event): void
     {
@@ -54,7 +62,7 @@ class ProcessLessonVideo implements ShouldQueue
 
             $course = $lesson->section->course->id;
         
-            $lesson->image_path = "courses/$course/lessons/posters/{$lesson->slug}.webp";
+            $lesson->image_path = "courses/$course/lessons/posters/{$lesson->slug}.jpg";
             $media->getFrameFromSeconds(3)
             //asi redimencionamos el tamaño de la imagen
                 ->addFilter(function ($filters) {
